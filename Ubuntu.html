@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EC2 Ubuntu Server Quiz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .quiz-container {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .question {
+      margin-bottom: 20px;
+    }
+    .question h3 {
+      margin-bottom: 10px;
+    }
+    .options label {
+      display: block;
+      margin-bottom: 8px;
+      cursor: pointer;
+    }
+    .submit-btn {
+      display: block;
+      margin: 30px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      background: #0078D7;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 20px;
+      font-weight: bold;
+      color: green;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>EC2 Ubuntu Server Quiz</h1>
+  <div class="quiz-container" id="quiz"></div>
+  <button class="submit-btn" onclick="submitQuiz()">Submit Answers</button>
+  <div class="result" id="result"></div>
+
+  <script>
+    const quizData = [
+      {question:"What does EC2 Instance Connect primarily use to access your Ubuntu server?",options:["FTP connection","Telnet session","RDP protocol","SSH over browser"],answer:3},
+      {question:"Which command updates the package list on Ubuntu?",options:["sudo apt upgrade","sudo apt install","sudo apt update","sudo apt refresh"],answer:2},
+      {question:"How do you install Python's package manager on Ubuntu?",options:["sudo apt install python3-pip","python3 get-pip.py","sudo install pip","apt-get python-pip"],answer:0},
+      {question:"Which tool allows you to create isolated Python environments?",options:["pip","venv","conda","virtualenvwrapper"],answer:1},
+      {question:"What is the purpose of a security group in EC2?",options:["To monitor CPU usage","To define network access rules","To manage billing","To store SSH keys"],answer:1},
+      {question:"Which command installs Docker on Ubuntu?",options:["sudo apt install docker.io","docker install ubuntu","install docker","apt-get docker"],answer:0},
+      {question:"How do you check disk usage on Ubuntu?",options:["free -m","df -h","lsblk","du -s"],answer:1},
+      {question:"What is the default user for Ubuntu EC2 instances?",options:["admin","ubuntu","root","ec2-user"],answer:1},
+      {question:"Which file contains SSH authorized keys for a user?",options:["~/.ssh/authorized_keys","~/.ssh/id_rsa","/etc/ssh/sshd_config","~/.ssh/config"],answer:0},
+      {question:"How do you install Nginx on Ubuntu?",options:["sudo apt install nginx","install nginx","apt-get nginx-server","nginx setup"],answer:0},
+      {question:"What does 'sudo' allow you to do?",options:["Switch users","Encrypt files","Run commands as root","Run commands as another user"],answer:2},
+      {question:"Which command shows system memory usage?",options:["df -h","uptime","top","free -h"],answer:3},
+      {question:"How do you create a new user on Ubuntu?",options:["adduser","useradd","createuser","newuser"],answer:0},
+      {question:"Which command installs updates for all packages?",options:["apt refresh","apt upgrade","apt install","apt update"],answer:1},
+      {question:"How do you check if a service is running on Ubuntu?",options:["service check","ps aux","systemctl status","top"],answer:2},
+      {question:"Which tool helps monitor real-time system performance?",options:["df","htop","grep","ls"],answer:1},
+      {question:"How do you mount an EBS volume on Ubuntu?",options:["Use 'attach-volume'","Use 'ebs-mount'","Use 'mount' after formatting","Use 'volume-mount'"],answer:2},
+      {question:"What does 'ufw' stand for?",options:["Ubuntu Firewall","Uncomplicated Firewall","User Firewall","Universal Firewall"],answer:1},
+      {question:"How do you reboot an EC2 instance from the command line?",options:["shutdown -r","sudo reboot","ec2-reboot","restart"],answer:1},
+      {question:"Which log file contains boot messages?",options:["/var/log/messages","/var/log/boot.log","/var/log/init.log","/var/log/syslog"],answer:1}
+    ];
+
+    function loadQuiz() {
+      const quizContainer = document.getElementById("quiz");
+      quizData.forEach((q, index) => {
+        const questionDiv = document.createElement("div");
+        questionDiv.classList.add("question");
+        questionDiv.innerHTML = `<h3>${index + 1}. ${q.question}</h3>`;
+        const optionsDiv = document.createElement("div");
+        optionsDiv.classList.add("options");
+        q.options.forEach((opt, i) => {
+          optionsDiv.innerHTML += `
+            <label>
+              <input type="radio" name="q${index}" value="${i}"> ${opt}
+            </label>
+          `;
+        });
+        questionDiv.appendChild(optionsDiv);
+        quizContainer.appendChild(questionDiv);
+      });
+    }
+
+    function submitQuiz() {
+      let score = 0;
+      quizData.forEach((q, index) => {
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+        if (selected && parseInt(selected.value) === q.answer) {
+          score++;
+        }
+      });
+      document.getElementById("result").innerText = `You scored ${score} out of ${quizData.length}!`;
+    }
+
+    loadQuiz();
+  </script>
+</body>
+</html>
